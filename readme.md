@@ -1,18 +1,19 @@
 # BOILERPLATE MAPA DO BRASIL COM ESTADOS COLORIDOS
 
 
-Para rodar tenha node instalado em sua maquina, e execute os comandos abaixos:
+Para rodar tenha node instalado em sua maquina.
+Antes de executar o projeto, renomeie o arquivo ".env.sample" para ".env" e insira sua chave de API do Google Maps.
+
+Execute os comandos abaixos:
 ```bash
-# Instalar servidor HTTP basico do node
-$ sudo npm install -g http-server
+# Instalar os componentes do projeto
+$ npm install
 
 # Rodar a aplicação
-$ http-server -c-1     
+$ node index.js
 
 # Acesso disponivel em
-Available on:
-  http://127.0.0.1:8080
-  http://192.168.15.41:8080
+http://localhost:3000/
 ```
 
 Os pontos referenciados dos estados foram retirados de:
