@@ -1,13 +1,8 @@
-var utils = { 
-    colors: { 
-        getRandomColor: function getRandomColor() { 
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        } 
-    } 
-};
+import { utils } from '/utils/index.js';
+import { data } from '/data/index.js';
+
+
+
+
+export { utils, data };
 

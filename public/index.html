@@ -8,23 +8,12 @@
       width: 100%;
     }
   </style>
-  <script  src="app.js"></script>
 </head>
 <body>
   <div id="map"></div>
-  <script>
+  <script type="module">
+    import { utils, data } from './app.js';
     var geojsonData;
-
-    var estados = [
-      {"sigla": "AM", "cor": utils.colors.getRandomColor() },
-      {"sigla": "AC", "cor": utils.colors.getRandomColor() },
-      {"sigla": "RO", "cor": utils.colors.getRandomColor() },
-      {"sigla": "MT", "cor": utils.colors.getRandomColor() },
-      {"sigla": "RR", "cor": utils.colors.getRandomColor() },
-      {"sigla": "PA", "cor": utils.colors.getRandomColor() },
-      {"sigla": "MA", "cor": utils.colors.getRandomColor() },
-    ];
-
     var centerMap = { lat: -11.938104, lng:  -55.090393 };
 
     function loadGeoJson(callback) {
@@ -126,8 +115,8 @@
             },
           ],
         });
-
-        estados.forEach(function(estado) {
+        
+        data.brazilianStates.forEach(function(estado) {
           const stateFeature = geojsonData.features.find(feature => feature.properties.sigla === estado.sigla);
 
           if (stateFeature) {
@@ -145,10 +134,46 @@
             statePolygon.setMap(map);
           }
         });
+
+        data.brasilianCities.forEach(function(cidade) {
+          var squareSize = 0.1;
+          var citySquare = new google.maps.Polygon({
+            paths: [
+              { lat: cidade.lat + squareSize, lng: cidade.lng - squareSize },
+              { lat: cidade.lat + squareSize, lng: cidade.lng + squareSize },
+              { lat: cidade.lat - squareSize, lng: cidade.lng + squareSize },
+              { lat: cidade.lat - squareSize, lng: cidade.lng - squareSize }
+            ],
+            strokeColor: cidade.cor,
+            strokeOpacity: 1,
+            strokeWeight: 2,
+            fillColor: cidade.cor,
+            fillOpacity: 0.6
+          });
+
+          citySquare.setMap(map);
+        });
+
+        data.conections.forEach(function(conexao) {
+          var cidadeInicio = data.brasilianCities.find(cidade => cidade.nome === conexao.inicio);
+          var cidadeFim = data.brasilianCities.find(cidade => cidade.nome === conexao.fim);
+
+          if (cidadeInicio && cidadeFim) {
+            var cityLine = new google.maps.Polyline({
+              path: [
+                { lat: cidadeInicio.lat, lng: cidadeInicio.lng },
+                { lat: cidadeFim.lat, lng: cidadeFim.lng }
+              ],
+              strokeColor: conexao.cor,
+              strokeOpacity: 1,
+              strokeWeight: 2,
+              map: map
+            });
+          }
+        });
       });
     }
 
-    // Carrega o mapa quando a API do Google Maps estiver pronta
     function loadGoogleMapsScript() {
       fetch('/api/google-maps-key')
         .then(response => response.text())
@@ -163,6 +188,8 @@
           console.error('Error fetching API key:', error);
         });
     }
+   
+    window.initMap = initMap;
 
     window.onload = loadGoogleMapsScript;
   </script>
