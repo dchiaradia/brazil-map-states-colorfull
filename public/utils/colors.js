@@ -1,5 +1,5 @@
 var colors = { 
-    getRandomColor: function getRandomColor() { 
+    randomColor: function randomColor() { 
         const letters = '0123456789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
@@ -23,6 +23,9 @@ var colors = {
     bronze: '#cd7f32',
     teal: '#008080',
     navy: '#000080',
+    danger: '#dc3545',
+    warning: '#ffc107',
+    success: '#28a745',
 };
 
 export { colors };

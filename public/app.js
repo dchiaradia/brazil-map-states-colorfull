@@ -1,8 +1,8 @@
-import { utils } from '/utils/index.js';
+import { utils, gMaps } from '/utils/index.js';
 import { data } from '/data/index.js';
 
 
 
 
-export { utils, data };
+export { utils, gMaps, data };
 
